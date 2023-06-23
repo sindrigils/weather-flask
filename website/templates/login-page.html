@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Sign in
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/login-page.css' )}}">
+<!-- desktop login -->
+<div class="login-box">
+    <div class="form-box login">
+        <h2>Login</h2>
+        <form action="{{ url_for('auth.login_page') }}" method="post" class="form-login">
+            {{ form.hidden_tag() }}
+            <div class="input-box">
+                <span class="icon"><ion-icon name="person"></ion-icon></span>
+                {{ form.username(class="input-form")}}
+                {{ form.username.label(class="label-form") }}
+            </div>
+            
+            <div class="input-box">
+                <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                {{ form.password(class="input-form") }}
+                {{ form.password.label(class="label-form")}}
+            </div>
+
+            <div class="remember-forgot">
+                <label><input type="checkbox">Remember me</label>
+                <a href="#">Forgot Password?</a>
+            </div>
+            {{ form.submit(class="sign-in-button") }}
+
+            <div class="login-register">
+                <p>Don't have an account? <a href="{{ url_for('auth.register_page' )}}" class="register-link-desktop">Register</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- mobile login -->
+<div class="header-container">
+    <div class="headers">
+        <h1 class="header-1">Let's sign you in.</h1>
+        <h3 class="header-2">Welcome back.</h3>
+        <h3 class="header-2">You've been missed!</h3>
+    </div>
+</div>
+
+
+<div class="form-container">
+    <form action="{{ url_for('auth.login_page') }}" method="post">
+        <div class="mobile-forms">
+            {{ form.hidden_tag() }}
+
+            {{ form.username(class="form", placeholder="Username") }}
+
+            {{ form.password(class="form", placeholder="Password") }}
+        </div>
+        <br>
+
+        <div class="sign-in-container">
+            <p class="account-text">Don't have an account? <a href="{{url_for('auth.register_page')}}" class="register-link">Register</a></p>
+            {{ form.submit(class="submit-button") }}
+        </div>
+    </form>
+</div>
+
+
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+{% endblock %}

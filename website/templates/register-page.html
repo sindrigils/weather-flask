@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/register-page.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/login-page.css' )}}">
+
+<div class="register-box">
+    <div class="form-box">
+        <h2>Register</h2>
+        <form action="{{ url_for('auth.register_page') }}" method="post" class="form-register">
+            {{ form.hidden_tag() }}
+            <div class="input-box">
+                <span class="icon"><ion-icon name="person"></ion-icon></span>
+                {{ form.username(class="input-form")}}
+                {{ form.username.label(class="label-form")}}
+            </div>
+
+            <div class="input-box">
+                <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                {{ form.email(class="input-form")}}
+                {{ form.email.label(class="label-form")}}
+            </div>
+
+            <div class="input-box">
+                <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                {{ form.password(class="input-form")}}
+                {{ form.password.label(class="label-form")}}
+            </div>
+
+            <div class="input-box">
+                <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                {{ form.retype_password(class="input-form")}}
+                {{ form.retype_password.label(class="label-form")}}
+            </div>
+
+            {{ form.submit(class="sign-in-button") }}
+
+            <div class="login-register">
+            <p>Already have an account? <a href="{{ url_for('auth.login_page') }}" class="register-link-desktop">Sign In</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="header-container" style="margin-top: 4rem;">
+    <h1 class="header-1">Hello!</h1>
+    <h3 class="header-2">Sign up to get started!</h3>
+</div>
+
+
+<div class="form-container">
+    <form action="{{ url_for('auth.register_page') }}" method="post">
+        <div class="mobile-forms">
+            {{ form.hidden_tag() }}
+
+            {{ form.username(class="form", placeholder="Username")}}
+            {{ form.email(class="form", placeholder="Email")}}
+            {{ form.password(class="form", placeholder="Password") }}
+            {{ form.retype_password(class="form", placeholder="Re-enter Password") }}
+        </div>
+
+        <br>
+    
+        <div class="sign-in-container">
+            <p class="account-text">Already have an account? <a href="{{url_for('auth.login_page')}}" class="register-link">Sign In</a></p>
+            {{ form.submit(class="submit-button") }}
+        </div>
+    </form>
+</div>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+{% endblock %}

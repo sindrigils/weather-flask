@@ -1,0 +1,28 @@
+.main-footer {
+    display: none;
+}
+
+
+.register-box {
+    display: none;
+    position: relative;
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    width: 28rem;
+    height: 35rem;
+}
+
+
+@media (min-width: 40rem) {
+    .register-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        position: relative;
+        top: 6rem;
+    }
+}

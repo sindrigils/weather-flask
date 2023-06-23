@@ -1,0 +1,160 @@
+
+main {
+    grid-area: main;
+    background-color: #E1F1FF;
+    background-size: cover;
+    background-position: center;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+}
+
+.form-container {
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; */
+    display: grid;
+    grid-template-rows: 5rem 1fr;
+    grid-template-areas: "form-header" "form-content";
+    position: relative;
+    top: 6rem;
+    margin: 0 auto;
+    width: 55vw;
+    height: 50vh;
+
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.weather-form {
+    grid-area: form-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+.form-container h2 {
+    grid-area: form-header;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    min-width: 0.5rem;
+}
+
+.city-container, .date-container {
+    width: 100%;
+    position: relative;
+    left: 1rem;
+}
+
+.city-container label, .date-container label {
+    width: 2rem;
+    height: 24px;
+    margin-right: 1rem;
+}
+
+.city-container input, .date-container input {
+    width: 70%;
+    height: 2.5rem;
+    border: none;
+    background: rgba(255, 255, 255, 1);
+    color: black;
+    padding: 0 0.8rem;
+    border-radius: 4px;
+}
+
+.date-container input {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+
+.city-container input:focus-visible,
+.date-container input:focus-visible {
+    outline: none;
+}
+
+
+
+.submit-container {
+    display: flex;
+    justify-content: center;
+}
+
+.submit-container input {
+    background: rgba(0, 136, 169, 1);
+    border: none;
+    width: 10rem;
+    height: 2.4rem;
+    padding: 0.5rem 0;
+    color: white;
+    border-radius: 10px;
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: relative;
+    bottom: 5em;
+}
+
+.icon {
+    width: 10%;
+    max-width: 6rem;
+    height: auto;
+    /* width: 6rem;
+    height: 6rem; */
+    /* margin-right: 3rem; */
+    margin-right: calc(1rem + 0.5vh);
+    margin-bottom: 1rem;
+    transition: transform 0.5s ease-out;
+    animation: wiggle 2s;
+    animation-delay: 1s;
+}
+
+.icon:hover {
+    transform: translateY(-1.5rem);
+}
+
+@media (min-width: 40rem) {
+    .icons {
+        margin-right: calc(1rem + 2vh);
+    }
+
+    .form-container {
+        width: 30vw;
+        height: 40vh;
+        min-width: 25rem;
+    }
+
+    .city-container, .date-container {
+        left: 2.5rem;
+    }
+}
+
+@keyframes wiggle {
+    0% {
+      transform: rotate(0);
+    }
+    25% {
+      transform: rotate(-10deg);
+    }
+    50% {
+      transform: rotate(10deg);
+    }
+    75% {
+      transform: rotate(-10deg);
+    }
+    100% {
+      transform: rotate(0);
+    }
+  }

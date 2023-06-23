@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}
+Weather
+{% endblock %}
+
+{% block content %}
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/weather-page.css' )}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+
+<main>
+
+    <div class="table-background">
+        <div class="table-container">
+            <div class="table-header">
+                {{ city }} {{ date }}
+            </div>
+            <table class="weather-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Weather</th>
+                        <th>Temp</th>
+                        <th>Wind km/h</th>
+                        <th>Condition</th>
+                    </tr>
+                
+                </thead>
+                <tbody>
+                    {% for hour_forecast in data_obj %}
+                        <tr>
+                            <td>{{ hour_forecast["time"].split()[-1].split(":")[0] }}</td>
+                            <td><img src="{{ hour_forecast['condition']['icon'] }}" alt=""></td>
+                            <td class="data-temp">{{ hour_forecast["temp_c"] }}&#176</td>
+                            <td>{{ hour_forecast["wind_kph"] }}</td>
+                            <td>{{ hour_forecast["condition"]["text"]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="weather-info">
+        <div class="weather-info-items1">
+            <span class="city-text">{{ city }}</span>
+            <span class="date-text">17 June</span>
+            <!-- <span class="date-text">{{ date }}</span> -->
+        </div>
+
+        <div class="weather-info-items2">
+            <span>Temp - <span class="temp-text">{{ data_obj[0]["temp_c"] }}&#176</span></span>
+            <span>Condition - <span class="condition-text">{{ data_obj[0]["condition"]["text"] }}</span></span>
+        </div>
+
+        <div class=""><button class="modal-button">Show each hour</button></div>
+    </div>
+
+
+    <div id="map"></div>
+    
+
+</main>
+
+
+<script defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap" data-lat="{{ lat }}" data-lng="{{ lng }}"></script>
+<script src="{{ url_for('static', filename='js/initialize_map.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modals.js') }}"></script>
+  
+
+{% endblock %}

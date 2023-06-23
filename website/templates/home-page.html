@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="../static/styles/home-page.css">
+
+<main>
+    <div class="box">
+        <div class="form-container">
+            <h2>Enter a city and select a date</h2>
+
+            <form action="{{ url_for('views.home_page')}}" method="post" name="weather-form" class="weather-form">
+                <div class="city-container">
+                    <label>City</label>
+                    <input type="text" name="city" placeholder="City">
+                </div>
+
+                <div class="date-container">
+                    <label>Date</label>
+                    <input type="date" name="date">
+                </div>
+
+                <div class="submit-container">
+                    <input type="submit" name="submit">
+                </div>
+            </form>
+        </div>
+
+        <div class="icons">
+            <img src="//cdn.weatherapi.com/weather/64x64/day/113.png" alt="sunny" class="icon">
+            <img src="//cdn.weatherapi.com/weather/64x64/day/116.png" alt="cloudy-sunny" class="icon">
+            <img src="//cdn.weatherapi.com/weather/64x64/day/176.png" alt="sunny-rain" class="icon">
+            <img src="//cdn.weatherapi.com/weather/64x64/day/308.png" alt="rain" class="icon">            
+            <img src="//cdn.weatherapi.com/weather/64x64/day/230.png" alt="snow-wind" class="icon">
+            <img src="//cdn.weatherapi.com/weather/64x64/day/338.png" alt="snow" class="icon">
+            <img src="//cdn.weatherapi.com/weather/64x64/day/122.png" alt="cloudy" class="icon">
+        </div>
+    </div>
+</main>
+
+{% endblock %}

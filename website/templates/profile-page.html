@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile-page.css') }}">
+
+
+<div class="search-history-container">
+    <table class="search-history-table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>City</th>
+                <th>Date</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for search in search_history %}
+
+                <tr>
+                    <td><img src="{{ url_for('proxy.static_image_proxy') }}?city={{ search.city }}" alt="static image of {{ search.city }}" class="static-image"></td>
+                    <td>{{ search.city }}</td>
+                    <td>{{ search.date }}</td>
+                    <td>{{ search.time }}</td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+{% endblock %}

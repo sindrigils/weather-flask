@@ -1,0 +1,16 @@
+
+.search-history-container {
+    background: lightblue;
+    height: 95%;
+    width: 50vw;
+    margin-left: 10rem;
+}
+
+.search-history-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.static-image {
+    width: 164px;
+}

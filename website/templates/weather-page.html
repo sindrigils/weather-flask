@@ -9,6 +9,8 @@ Weather
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/weather-page.css' )}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
 
+
+
 <main>
 
     <div class="table-background">
@@ -45,8 +47,7 @@ Weather
     <div class="weather-info">
         <div class="weather-info-items1">
             <span class="city-text">{{ city }}</span>
-            <span class="date-text">17 June</span>
-            <!-- <span class="date-text">{{ date }}</span> -->
+            <span class="date-text">{{ date }}</span>
         </div>
 
         <div class="weather-info-items2">
@@ -61,11 +62,13 @@ Weather
     <div id="map"></div>
     
 
+    
+
 </main>
 
 
-<script defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap" data-lat="{{ lat }}" data-lng="{{ lng }}"></script>
 <script src="{{ url_for('static', filename='js/initialize_map.js') }}"></script>
+<script src="{{ url_for('proxy.maps_proxy') }}?lat={{ lat }}&lng={{ lng }}" data-lat="{{ lat }}" data-lng="{{ lng }}"></script>
 <script src="{{ url_for('static', filename='js/modals.js') }}"></script>
   
 

@@ -1,9 +1,8 @@
-from flask import render_template, redirect, url_for, Blueprint, request, flash
+from flask import render_template, redirect, url_for, Blueprint, flash
 from flask_login import login_required, login_user, logout_user, current_user
 from website import db
 from website.forms import LoginForm, RegisterForm
 from website.models import User
-from functools import wraps
 
 
 auth = Blueprint("auth", __name__)

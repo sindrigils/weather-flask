@@ -1,7 +1,7 @@
 import requests
 from dotenv import load_dotenv
 from os import getenv
-from datetime import datetime, timedelta
+from datetime import datetime
 from website.error_enums import ErrorEnum
 
 load_dotenv()

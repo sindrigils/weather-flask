@@ -1,14 +1,9 @@
 from flask import render_template, Blueprint, flash, request, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 from .utils.map_utils import extract_lat_long_via_address
 from .utils.weather_utils import get_hourly_weather_data_single_day
-from dotenv import load_dotenv
 from website.error_enums import ErrorEnum
-import os
-
-
-load_dotenv()
-GOOGLE_API_KEY = os.getenv("google_maps_api")
+from website.utils.helper import format_date
 
 views = Blueprint("views", __name__)
 
@@ -20,7 +15,7 @@ def home_page():
         city = request.form.get("city")
         date = request.form.get("date")  # 2023-06-13
 
-        # # laga
+        # laga
         # lat, lng = extract_lat_long_via_address(city)
         # if (lat is None) or (lng is None):
         #     flash(
@@ -50,18 +45,31 @@ def contact_page():
 @login_required
 def weather_page(city: str, date: str):
     lat, lng = extract_lat_long_via_address(city)
+
     data_obj = get_hourly_weather_data_single_day(city, date)
 
     if data_obj == ErrorEnum.DATE_TOO_FAR_IN_FUTURE:
         flash(message=f"{ErrorEnum.DATE_TOO_FAR_IN_FUTURE.value}", category="danger")
         return redirect(url_for("views.home_page"))
 
+    date = format_date(date=date)
+    current_user.update_history(city=city, date=date)
+
     return render_template(
         "weather-page.html",
         city=city.title(),
-        date=date,
+        date=date[:7],  # I don't want to display the year
         data_obj=data_obj,
         lat=lat,
         lng=lng,
-        api_key=GOOGLE_API_KEY,
+    )
+
+
+@views.route("/profile")
+@login_required
+def profile_page():
+    return render_template(
+        "profile-page.html",
+        search_history=current_user.search_history[::-1]
+        # reverse the search history in order for the newest to be on top
     )

@@ -2,12 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
-from dotenv import load_dotenv
-import os
-
-
-load_dotenv()
-secret_key = os.getenv("secret_key")
+from website.env_loader import secret_key
 
 
 app = Flask(__name__)
@@ -35,9 +30,17 @@ from .auth import auth
 
 app.register_blueprint(auth, url_prefix="/")
 
+from .api_proxy import proxy
+
+app.register_blueprint(proxy, url_prefix="/")
+
 from website.models import User
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+if __name__ == "__main__":
+    pass

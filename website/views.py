@@ -13,16 +13,11 @@ views = Blueprint("views", __name__)
 def home_page():
     if request.method == "POST":
         city = request.form.get("city")
-        date = request.form.get("date")  # 2023-06-13
+        date = request.form.get("date")
 
-        # laga
-        # lat, lng = extract_lat_long_via_address(city)
-        # if (lat is None) or (lng is None):
-        #     flash(
-        #         message=f"That's not a valid city {city}! Please try another city",
-        #         category="danger",
-        #     )
-        # return redirect(url_for("views.home_page"))
+        if city == "" or date == "":
+            flash(message=f"Please enter a city and select a date!", category="danger")
+            return redirect(url_for("views.home_page"))
 
         return redirect(
             url_for(
@@ -44,12 +39,16 @@ def contact_page():
 @views.route("/weather/<city>/<date>")
 @login_required
 def weather_page(city: str, date: str):
-    lat, lng = extract_lat_long_via_address(city)
+    lat_and_lng = extract_lat_long_via_address(city)
+
+    if isinstance(lat_and_lng, ErrorEnum):
+        flash(message=f"{lat_and_lng.value}", category="danger")
+        return redirect(url_for("views.home_page"))
 
     data_obj = get_hourly_weather_data_single_day(city, date)
 
-    if data_obj == ErrorEnum.DATE_TOO_FAR_IN_FUTURE:
-        flash(message=f"{ErrorEnum.DATE_TOO_FAR_IN_FUTURE.value}", category="danger")
+    if isinstance(data_obj, ErrorEnum):
+        flash(message=f"{data_obj.value}", category="danger")
         return redirect(url_for("views.home_page"))
 
     date = format_date(date=date)
@@ -60,8 +59,8 @@ def weather_page(city: str, date: str):
         city=city.title(),
         date=date[:7],  # I don't want to display the year
         data_obj=data_obj,
-        lat=lat,
-        lng=lng,
+        lat=lat_and_lng[0],
+        lng=lat_and_lng[1],
     )
 
 

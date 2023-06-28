@@ -1,6 +1,7 @@
 from flask import Blueprint, request, make_response
 import requests
 from website.env_loader import GOOGLE_API_KEY
+from website.error_enums import ErrorEnum
 
 proxy = Blueprint("proxy", __name__)
 
@@ -18,7 +19,7 @@ def static_image_proxy():
         response.headers.set("Content-Type", "image/png")
         return response
 
-    return "Error occured while fetching static image", 500
+    return ErrorEnum.ERROR_FETCHING_IMAGE, 500
 
 
 @proxy.route("/api/maps")
@@ -34,4 +35,4 @@ def maps_proxy():
             {"Content-Type": "application/javascript"},
         )
     except Exception:
-        return "Error occurred while fetching map data", 500
+        return ErrorEnum.ERROR_FETCHING_MAP, 500

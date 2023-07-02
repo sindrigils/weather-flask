@@ -1,9 +1,32 @@
+main {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 13rem;
+    background-color: #E1F1FF;
+}
+
+.top-location-container {
+    position: absolute;
+    display: none;
+    width: 80vw;
+    height: 40vh;
+    background: white;
+    z-index: 101;
+}
 
 .search-history-container {
-    background: lightblue;
-    height: 95%;
+    display: none;
+    position: absolute;
+    z-index: 101;
+    background: white;
+    height: 80vh;
     width: 50vw;
-    margin-left: 10rem;
+    overflow-y: auto;
+    border-radius: 10px;
+    margin-top: 1rem;
 }
 
 .search-history-table {
@@ -11,6 +34,142 @@
     width: 100%;
 }
 
+.search-history-table thead tr {
+    background: #78c7d2;
+    font-size: 1.2rem;
+    color: #222;
+    text-align: left;
+    font-weight: bold;
+}
+
+.search-history-table th, .search-history-table td {
+    padding: 1rem;
+}
+
+.search-history-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    font-size: 1.1rem;
+    /* cursor: pointer; */
+}
+
+.search-history-table tbody tr:hover {
+    background: rgb(224, 224, 224);
+}
+
+.city-link {
+    /* color: #78c7d2; */
+    color: #222;
+    transition: color, font-size 0.3s ease-in-out;
+}
+
+.city-link:hover {
+    text-decoration: none;
+    color: #78c7d2;
+    font-size: 1.2rem;
+}
+
 .static-image {
     width: 164px;
+}
+
+.profile-pic-container {
+    position: relative;
+}
+
+.img-div {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: 4rem;
+}
+
+.profile-pic {
+    width: 300px;
+    height: 100%;
+}
+
+.upload-icon-button {
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+
+.upload-icon {
+    width: 48px;
+    height: 48px;
+}
+
+#profile-pic-form {
+    position: absolute;
+    right: 0;
+    bottom: -0.5rem;
+}
+
+
+.buttons-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.history-btn,
+.location-btn {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1rem;
+    background-color: #222;
+    padding: 1.1rem 3.3rem;
+    margin: 0 auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.20);
+}
+
+.history-btn span,
+.location-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+.history-btn::after,
+.location-btn::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 490%;
+    width: 140%;
+    background: #78c7d2;
+    transition: all .5s ease-in-out;
+    transform: translateX(-98%) translateY(-25%) rotate(45deg);
+}
+
+.history-btn:hover::after,
+.location-btn:hover::after {
+    transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+
+.settings-btn {
+    font-size: 1rem;
+    font-weight: 500;
+    background: #78c7d2;
+    width: 160px;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #222;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow, transform 0.3s ease-in-out;
+    outline: none;
+}
+
+.settings-btn:hover, .settings-btn:focus, .settings-btn:active {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
 }

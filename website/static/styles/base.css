@@ -82,7 +82,7 @@ body {
 }
 
 .mobile-nav-login-button, .main-nav-login-button {
-    background: rgba(0, 136, 169, 1);
+    background: #78c7d2;
     border: none;
     border-radius: 50px;
     padding: 0.7rem 1.5rem;
@@ -98,12 +98,12 @@ body {
 
 .main-nav-login-button:hover {
     background: white;
-    color: rgba(0, 136, 169, 1);
+    color: #78c7d2;
     transition: all 0.3s ease;
 }
 
 .main-nav-link a:hover {
-    color: rgba(0, 136, 169, 1);
+    color: #78c7d2;
     transition: color 0.15s ease;
     text-decoration: none;
 }
@@ -111,7 +111,7 @@ body {
 .main-nav-link a::after {
     content: "";
     position: absolute;
-    background: rgba(0, 136, 169, 1);
+    background: #78c7d2;
     height: 3px;
     width: 0%;
     left: 0;
@@ -201,10 +201,8 @@ main {
 .main-footer {
     position: relative;
     bottom: 0;
-    
     width: 100%;
-    grid-area: footer;
-    
+    grid-area: footer;   
 }
 
 .nav-footer {

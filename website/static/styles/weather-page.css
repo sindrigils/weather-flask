@@ -114,8 +114,7 @@ main {
     color: rgb(220, 44, 44);
 }
 
-.condition-text {
-}
+
 
 .modal-button {
     background: rgba(0, 136, 169, 1);
@@ -125,5 +124,14 @@ main {
     padding: 0.5rem 0;
     color: white;
     border-radius: 10px;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.modal-button:hover {
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
+}
+
+.modal-button:focus, .modal-button:focus-visible {
+    outline: none;
 }
 

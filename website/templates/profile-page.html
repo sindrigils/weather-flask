@@ -5,36 +5,72 @@ Profile
 {% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile-page.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/profile-page.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/profile.js')}}">
 
+<main>
+    <div class="top-location-container">
 
-<div class="search-history-container">
-    <table class="search-history-table">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>City</th>
-                <th>Date</th>
-                <th>Timestamp</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for search in search_history %}
-
+    </div>
+    <div class="search-history-container">
+        <table class="search-history-table">
+            <thead>
                 <tr>
-                    <td><img src="{{ url_for('proxy.static_image_proxy') }}?city={{ search.city }}" alt="static image of {{ search.city }}" class="static-image"></td>
-                    <td>{{ search.city }}</td>
-                    <td>{{ search.date }}</td>
-                    <td>{{ search.time }}</td>
+                    <th>Image</th>
+                    <th>City</th>
+                    <th>Date</th>
+                    <th>Timestamp</th>
                 </tr>
+            </thead>
+    
+            <tbody>
+                {% for search in search_history %}
+                    <tr>
+                        <td><img src="{{ url_for('proxy.static_image_proxy') }}?city={{ search.city }}" alt="static image of {{ search.city }}" class="static-image"></td>
+                        <td>
+                            <a href="{{ url_for('views.weather_page', city=search.city, date=todays_date) }}" class="city-link">
+                                {{ search.city.title() }}
+                            </a>
+                        </td>
+                        <td>{{ search.date }}</td>
+                        <td>{{ search.time }}</td>    
+                    </tr>    
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+    <div class="profile-pic-container">
+        <div class="img-div">
+            <img src="{{ url_for('static', filename='images/profile-pics/' + current_user.profile_pic) }}" alt="profile-pic" class="profile-pic">
+        </div>
+
+        <form id="profile-pic-form" action="" method="post" enctype="multipart/form-data" name="upload-profile-pic">
+            <input type="file" name="profile-pic" accept="image/*" id="profile-pic-input" style="display: none;">
+            <label for="profile-pic-input" class="upload-icon-button">
+                <img src="{{ url_for('static', filename='images/icons/gallery.png') }}" alt="Upload Icon" class="upload-icon">
+            </label>
+            <button type="submit" style="display: none;"></button>
+        </form>
+
+    </div>
+
+
+    <div class="buttons-container">
+        <button class="history-btn"><span>Search History</span></button>
+        <button class="location-btn"><span>Top locations</span></button>
+        <button class="settings-btn"><span>Settings</span></button>
+    </div>
+</main>
 
 
 
+<script>
+    const fileInput = document.getElementById('profile-pic-input');
 
+    fileInput.addEventListener('change', function() {
+      this.form.submit();
+    });
+</script>
+<script src="{{ url_for('static', filename='js/modals.js') }}"></script>
 {% endblock %}

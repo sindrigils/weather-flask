@@ -4,6 +4,13 @@ from datetime import datetime
 from sqlalchemy import JSON
 from sqlalchemy.ext.mutable import MutableDict
 from collections import OrderedDict
+from werkzeug.utils import secure_filename
+from os import path, remove
+from website import app
+
+
+def default_timestamp():
+    return datetime.utcnow()
 
 
 class SearchHistory(db.Model):
@@ -12,12 +19,15 @@ class SearchHistory(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
     city = db.Column(db.String(), nullable=False)
-    date = db.Column(db.String(), nullable=False)
-    timestamp = db.Column(db.DateTime(), default=datetime.utcnow())
+    timestamp = db.Column(db.DateTime(), default=datetime.utcnow)
 
     @property
     def time(self):
         return self.timestamp.strftime("%H:%M")
+
+    @property
+    def date(self):
+        return self.timestamp.strftime("%d %B")
 
 
 class User(UserMixin, db.Model):
@@ -29,6 +39,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(), nullable=False)
     view_count = db.Column(MutableDict.as_mutable(JSON), nullable=False, default={})
     search_history = db.relationship("SearchHistory", backref="user", lazy=True)
+    profile_pic = db.Column(db.String(), nullable=False, default="default.png")
 
     @property
     def password(self):
@@ -58,7 +69,7 @@ class User(UserMixin, db.Model):
         else:
             self.view_count[city] = 1
 
-        search_entry = SearchHistory(city=city, date=date, user=self)
+        search_entry = SearchHistory(city=city, user=self)
 
         db.session.add(search_entry)
         db.session.commit()
@@ -69,3 +80,18 @@ class User(UserMixin, db.Model):
         )
 
         return sorted_dict
+
+    def update_profile_pic(self, file):
+        prev_profile_pic = self.profile_pic
+
+        if prev_profile_pic != "default.png":
+            prev_profile_pic_path = path.join(
+                app.config["UPLOAD_PROFILE_FOLDER"], prev_profile_pic
+            )
+            remove(prev_profile_pic_path)
+
+        filename = secure_filename(file.filename)
+        file.save(path.join(app.config["UPLOAD_PROFILE_FOLDER"], filename))
+        self.profile_pic = filename
+        db.session.add(self)
+        db.session.commit()

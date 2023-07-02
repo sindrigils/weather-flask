@@ -3,11 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from website.env_loader import secret_key
+from os import path
 
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = secret_key
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+UPLOAD_FOLDER = "static/images/profile-pics"
+app.config["UPLOAD_PROFILE_FOLDER"] = path.join(app.root_path, UPLOAD_FOLDER)
 
 
 db = SQLAlchemy(app)

@@ -9,8 +9,24 @@ Profile
     <link rel="stylesheet" href="{{ url_for('static', filename='js/profile.js')}}">
 
 <main>
-    <div class="top-location-container">
+    <div class="top-locations-container">
+        <table class="top-locations-table">
+            <thead>
+                <tr>
+                    <th>City</th>
+                    <th>Searches</th>
+                </tr>
+            </thead>
 
+            <tbody>
+                {% for city in top_locations.items() %}
+                    <tr>
+                        <td>{{ city[0].title() }}</td>
+                        <td>{{ city[1] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     <div class="search-history-container">
         <table class="search-history-table">
@@ -61,6 +77,7 @@ Profile
         <button class="location-btn"><span>Top locations</span></button>
         <button class="settings-btn"><span>Settings</span></button>
     </div>
+
 </main>
 
 

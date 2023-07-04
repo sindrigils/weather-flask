@@ -88,7 +88,10 @@ class User(UserMixin, db.Model):
             prev_profile_pic_path = path.join(
                 app.config["UPLOAD_PROFILE_FOLDER"], prev_profile_pic
             )
-            remove(prev_profile_pic_path)
+            try:
+                remove(prev_profile_pic_path)
+            except FileNotFoundError:
+                pass
 
         filename = secure_filename(file.filename)
         file.save(path.join(app.config["UPLOAD_PROFILE_FOLDER"], filename))

@@ -3,7 +3,7 @@ var weather_table = document.querySelector(".table-background");
 var open_button = document.querySelector(".modal-button");
 var search_history = document.querySelector(".search-history-container");
 var search_history_btn = document.querySelector(".history-btn");
-var location_container = document.querySelector(".top-location-container");
+var location_container = document.querySelector(".top-locations-container");
 var location_btn = document.querySelector(".location-btn");
 
 backdrop.addEventListener("click", function() {

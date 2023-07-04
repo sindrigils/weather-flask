@@ -8,16 +8,10 @@ main {
     background-color: #E1F1FF;
 }
 
-.top-location-container {
-    position: absolute;
-    display: none;
-    width: 80vw;
-    height: 40vh;
-    background: white;
-    z-index: 101;
-}
+/* modals */
 
-.search-history-container {
+.search-history-container,
+.top-locations-container {
     display: none;
     position: absolute;
     z-index: 101;
@@ -29,12 +23,12 @@ main {
     margin-top: 1rem;
 }
 
-.search-history-table {
-    border-collapse: collapse;
-    width: 100%;
+.top-locations-container {
+    margin-top: 4rem;
 }
 
-.search-history-table thead tr {
+.search-history-table thead tr,
+.top-locations-table thead tr {
     background: #78c7d2;
     font-size: 1.2rem;
     color: #222;
@@ -42,22 +36,44 @@ main {
     font-weight: bold;
 }
 
-.search-history-table th, .search-history-table td {
+.top-locations-table tbody tr,
+.search-history-table tbody tr {
+    font-size: 1.1rem;
+    border-bottom: 1px solid #dddddd;
+}
+
+.search-history-table th, .search-history-table td,
+.top-locations-table th, .top-locations-table td {
     padding: 1rem;
 }
 
-.search-history-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-    font-size: 1.1rem;
-    /* cursor: pointer; */
+
+.top-locations-container {
+    width: 40vw;
+    height: 50vh;
 }
+
+.top-locations-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.top-locations-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+
+.search-history-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
 
 .search-history-table tbody tr:hover {
     background: rgb(224, 224, 224);
 }
 
 .city-link {
-    /* color: #78c7d2; */
     color: #222;
     transition: color, font-size 0.3s ease-in-out;
 }
@@ -71,6 +87,8 @@ main {
 .static-image {
     width: 164px;
 }
+
+/* content */
 
 .profile-pic-container {
     position: relative;

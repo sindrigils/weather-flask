@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, FloatField, EmailField
+from wtforms import StringField, PasswordField, SubmitField, EmailField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from website.models import User
 from string import punctuation
@@ -45,3 +45,33 @@ class LoginForm(FlaskForm):
     username = StringField(label="Username", validators=[DataRequired()])
     password = PasswordField(label="Password", validators=[DataRequired()])
     submit = SubmitField(label="Sign in")
+
+
+class ChangeUsernameForm(FlaskForm):
+    new_username = StringField(
+        label="New Username", validators=[DataRequired(), Length(min=2, max=30)]
+    )
+    repeat_username = StringField(
+        label="Repeat Username",
+        validators=[EqualTo("new_username", "Username don't match"), DataRequired()],
+    )
+    submit_username = SubmitField(label="Change Username")
+
+
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField(label="Current Password", validators=[DataRequired()])
+    new_password = PasswordField(
+        label="New Password", validators=[DataRequired(), Length(min=7)]
+    )
+    repeat_new_password = PasswordField(
+        label="Repeat Password",
+        validators=[DataRequired(), EqualTo("new_password", "Passwords don't match!")],
+    )
+    submit_password = SubmitField(label="Change Password")
+
+
+class DeleteAccountForm(FlaskForm):
+    username = StringField(label="Username", validators=[DataRequired()])
+    email = StringField(label="Email", validators=[DataRequired()])
+    password = PasswordField(label="Password", validators=[DataRequired()])
+    submit = SubmitField(label="Delete Account!")

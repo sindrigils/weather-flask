@@ -1,7 +1,13 @@
 from flask import render_template, redirect, url_for, Blueprint, flash
 from flask_login import login_required, login_user, logout_user, current_user
 from website import db
-from website.forms import LoginForm, RegisterForm
+from website.forms import (
+    LoginForm,
+    RegisterForm,
+    ChangePasswordForm,
+    ChangeUsernameForm,
+    DeleteAccountForm,
+)
 from website.models import User
 
 
@@ -76,3 +82,100 @@ def logout_page():
     logout_user()
     flash(message=f"You have been logged out!", category="info")
     return redirect(url_for("auth.login_page"))
+
+
+@auth.route("/settings", methods=["POST", "GET"])
+@login_required
+def settings_page():
+    change_username_form = ChangeUsernameForm()
+    change_password_form = ChangePasswordForm()
+    delete_account_form = DeleteAccountForm()
+
+    if (
+        change_username_form.validate_on_submit()
+        and change_username_form.submit_username.data
+    ):
+        attempted_new_username = change_username_form.new_username.data
+
+        if attempted_new_username == current_user.username:
+            flash(message=f"This is already your username!", category="info")
+        else:
+            current_user.update_username(new_username=attempted_new_username)
+            flash(
+                message=f"You successfully changed your username to {current_user.username}",
+                category="success",
+            )
+
+        return redirect(url_for("auth.settings_page"))
+
+    elif (
+        change_password_form.validate_on_submit()
+        and change_password_form.submit_password.data
+    ):
+        try:
+            current_user.update_password(
+                old_password=change_password_form.old_password.data,
+                new_password=change_password_form.new_password.data,
+            )
+            flash(message=f"Password has been changed", category="success")
+        except ValueError:
+            flash(message="Not successfull", category="danger")
+        return redirect(url_for("auth.settings_page"))
+
+    elif delete_account_form.validate_on_submit() and delete_account_form.submit.data:
+        form_username = delete_account_form.username.data
+        form_email = delete_account_form.email.data
+        form_password = delete_account_form.password.data
+
+        if form_username != current_user.username:
+            flash(
+                message=f"The username you entered doesn't match your account username!",
+                category="danger",
+            )
+            return redirect(url_for("auth.settings_page"))
+
+        if form_email != current_user.email:
+            flash(
+                message=f"The email you entered doesn't match your account email!",
+                category="danger",
+            )
+            return redirect(url_for("auth.settings_page"))
+
+        if not current_user.check_password_correction(form_password):
+            flash(
+                message=f"The password you enterd doesn't match your account password!",
+                category="danger",
+            )
+            return redirect(url_for("auth.settings_page"))
+
+        username = current_user.username
+        email = current_user.email
+        logout_user()
+
+        account_to_delete = User.query.filter_by(username=username, email=email).first()
+        db.session.delete(account_to_delete)
+        db.session.commit()
+        flash(
+            message=f"Your account has been deleted successfully!", category="success"
+        )
+
+        return redirect(url_for("auth.login_page"))
+
+    if change_username_form.errors != {} and change_username_form.submit_username.data:
+        for error_msg in change_username_form.errors.values():
+            flash(message=f"{error_msg[0]}", category="danger")
+
+    if change_password_form.errors != {} and change_password_form.submit_password.data:
+        for error_msg in change_password_form.errors.values():
+            flash(message=f"{error_msg[0]}", category="danger")
+
+    if delete_account_form.errors != {} and delete_account_form.submit.data:
+        for error_msg in delete_account_form.errors_values():
+            flash(message=f"{error_msg[0]}", category="danger")
+
+    return render_template(
+        "settings-page.html",
+        password_form=change_password_form,
+        username_form=change_username_form,
+        delete_form=delete_account_form,
+    )

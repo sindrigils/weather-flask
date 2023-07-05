@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Settings
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/settings-page.css') }}">
+<main>
+
+    <div class="sidebar">
+        <h2>Settings</h2>
+        <div class="sidebar-links">
+            <a id="account-link" href="#">Account</a>
+            <a id="change-username-link" href="#">Change Username</a>
+            <a id="change-password-link" href="#">Change Password</a>
+            <a id="delete-account-link" href="#">Delete Account</a>
+        </div>
+    </div>
+    
+
+
+    <div class="account-content">
+        <div class="account-content-header">
+            <h3>Account</h3>
+            <p>Here is your account information</p>
+        </div>
+
+        <div class="account-content-info">
+            <img src="{{ url_for('static', filename='images/profile-pics/' + current_user.profile_pic) }}" alt="profile-pic" class="profile-pic">
+            <p class="account-content-info-username"><span>Username</span> - {{ current_user.username }}</p>
+            <p class="account-content-info-email"><span>Email Address</span> - {{ current_user.email }}</p>
+        </div>
+    </div>
+
+
+    <div class="change-username-content">
+
+        <div class="change-username-header">
+            <h3>Change Username</h3>
+            <p>Change existing username.</p>
+        </div>
+
+        <div class="change-info-form">
+            <form action="{{ url_for('auth.settings_page') }}" method="post">
+                {{ username_form.hidden_tag() }}
+
+                <div class="change-info-box-container">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    {{ username_form.new_username.label(class="change-label") }}
+                    {{ username_form.new_username(class="change-box", placeholder="Username") }}
+                </div>
+
+                <div class="change-info-box-container">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    {{ username_form.repeat_username.label(class="change-label") }}
+                    {{ username_form.repeat_username(class="change-box", placeholder="Repeat Username") }}
+                </div>
+
+                <div class="change-info-box-container">
+                    {{ username_form.submit_username(class="change-box-submit") }}
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="change-password-content">
+        <h3>Change Password</h3>
+        <p>Change existing password.</p>
+
+        <div class="change-info-form">
+            <form action="{{ url_for('auth.settings_page') }}" method="post">
+                {{ password_form.hidden_tag() }}
+    
+                <div class="change-info-box-container">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    {{ password_form.old_password.label(class="change-label") }}
+                    {{ password_form.old_password(class="change-box", placeholder="Current Password") }}
+                </div>
+    
+                <div class="change-info-box-container">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    {{ password_form.new_password.label(class="change-label") }}
+                    {{ password_form.new_password(class="change-box", placeholder="Password") }}
+                </div>
+    
+                <div class="change-info-box-container">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    {{ password_form.repeat_new_password.label(class="change-label") }}
+                    {{ password_form.repeat_new_password(class="change-box", placeholder="Repeat Password") }}
+                </div>
+    
+                <div class="change-info-box-container">
+                    {{ password_form.submit_password(class="change-box-submit") }}
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="delete-account-content">
+
+        <div class="delete-account-header">
+            <h3>Delete Account</h3>
+            <p>Enter your account information in order to delete your account.</p>
+        </div>
+
+        <div class="change-info-form">
+            <form action="{{ url_for('auth.settings_page')}}" method="post">
+                {{ delete_form.hidden_tag() }}
+                <div class="change-info-box-container">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    {{ delete_form.username.label(class="change-label") }}
+                    {{ delete_form.username(class="change-box", placeholder="Username") }}
+                </div>
+
+                <div class="change-info-box-container">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    {{ delete_form.email.label(class="change-label") }}
+                    {{ delete_form.email(class="change-box", placeholder="Email") }}
+                </div>
+
+                <div class="change-info-box-container">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    {{ delete_form.password.label(class="change-label") }}
+                    {{ delete_form.password(class="change-box", placeholder="Password")}}
+                </div>
+
+                {{ delete_form.submit(class="change-box-submit", id="delete-submit") }}
+            </form>
+        </div>
+
+    </div>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/settings-links.js') }}"></script>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+{% endblock %}

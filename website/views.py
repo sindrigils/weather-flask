@@ -53,7 +53,7 @@ def weather_page(city: str, date: str):
 
     date_ = datetime.strptime(date, "%Y-%m-%d")
     date = date_.strftime("%d %B %Y")
-    current_user.update_history(city=city, date=date)
+    current_user.update_history(city=city)
 
     return render_template(
         "weather-page.html",

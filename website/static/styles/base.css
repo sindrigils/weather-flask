@@ -199,7 +199,7 @@ main {
 /* footer */
 
 .main-footer {
-    position: relative;
+    position: fixed;
     bottom: 0;
     width: 100%;
     grid-area: footer;   
@@ -226,6 +226,7 @@ main {
     text-decoration: none;
     font-size: 1.1rem;
     color: white;
+    transition: color 0.2s ease-in-out;
 }
 
 @media (min-width: 40rem) {
@@ -268,6 +269,11 @@ main {
 
     .nav-footer-link-2 {
         margin-right: 30vw;
+    }
+
+    .nav-footer-link a:hover {
+        color: #78c7d2;
+        text-decoration: none;
     }
 
     .alert-container {

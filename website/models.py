@@ -38,7 +38,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(), nullable=False, unique=True)
     password_hash = db.Column(db.String(), nullable=False)
     view_count = db.Column(MutableDict.as_mutable(JSON), nullable=False, default={})
-    search_history = db.relationship("SearchHistory", backref="user", lazy=True)
+    search_history = db.relationship(
+        "SearchHistory", backref="user", cascade="all, delete", lazy=True
+    )
     profile_pic = db.Column(db.String(), nullable=False, default="default.png")
 
     @property
@@ -54,7 +56,20 @@ class User(UserMixin, db.Model):
     def check_password_correction(self, attempted_password: str) -> bool:
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
-    def update_history(self, city: str, date: str):
+    def update_username(self, new_username: str):
+        self.username = new_username
+        db.session.add(self)
+        db.session.commit()
+
+    def update_password(self, old_password: str, new_password: str):
+        if self.check_password_correction(old_password):
+            self.password = new_password
+            db.session.add(self)
+            db.session.commit()
+        else:
+            raise ValueError()
+
+    def update_history(self, city: str):
         """Updates the user search history.
 
         Args:

@@ -6,7 +6,7 @@ from string import punctuation
 
 
 class RegisterForm(FlaskForm):
-    def validate_username(self, username_to_check: str):
+    def validate_username(self, username_to_check: StringField):
         existing_username = User.query.filter_by(
             username=username_to_check.data
         ).first()
@@ -19,7 +19,7 @@ class RegisterForm(FlaskForm):
         if any(letter in punctuation for letter in username_to_check.data):
             raise ValidationError(message=f"No punctuation's are allowd in username!")
 
-    def validate_email(self, email_to_check: str):
+    def validate_email(self, email_to_check: EmailField):
         existing_email = User.query.filter_by(email=email_to_check.data).first()
 
         if existing_email:
@@ -42,7 +42,7 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField(label="Username", validators=[DataRequired()])
+    email = EmailField(label="Email", validators=[DataRequired()])
     password = PasswordField(label="Password", validators=[DataRequired()])
     submit = SubmitField(label="Sign in")
 

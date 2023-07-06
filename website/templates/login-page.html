@@ -13,9 +13,9 @@ Sign in
         <form action="{{ url_for('auth.login_page') }}" method="post" class="form-login">
             {{ form.hidden_tag() }}
             <div class="input-box">
-                <span class="icon"><ion-icon name="person"></ion-icon></span>
-                {{ form.username(class="input-form")}}
-                {{ form.username.label(class="label-form") }}
+                <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                {{ form.email(class="input-form")}}
+                {{ form.email.label(class="label-form") }}
             </div>
             
             <div class="input-box">
@@ -53,7 +53,7 @@ Sign in
         <div class="mobile-forms">
             {{ form.hidden_tag() }}
 
-            {{ form.username(class="form", placeholder="Username") }}
+            {{ form.email(class="form", placeholder="Username") }}
 
             {{ form.password(class="form", placeholder="Password") }}
         </div>

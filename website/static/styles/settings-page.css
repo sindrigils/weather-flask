@@ -164,6 +164,24 @@ main {
     display: none;
 }
 
+.forgot-psw {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+.forgot-psw a {
+    margin-top: 1.5rem;
+    color: #222;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.forgot-psw a:hover {
+    opacity: 0.8;
+}
+
 /* delete account link */
 
 .delete-account-content {

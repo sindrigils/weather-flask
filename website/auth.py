@@ -9,6 +9,7 @@ from website.forms import (
     DeleteAccountForm,
 )
 from website.models import User
+from website.utils.support import flash_errors
 
 
 auth = Blueprint("auth", __name__)
@@ -16,6 +17,19 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=["POST", "GET"])
 def login_page():
+    """
+    Route for handling user login.
+
+    If the current user is already authenticated, they are redirected to the home page.
+    Otherwise, the login form is created and validated on submit.
+    If the form is validated and the login credentials are correct, the user is logged in
+    and redirected to the home page with a success flash message.
+    If the form is not validated or the login credentials are incorrect, an error flash message is shown.
+
+    Returns:
+        The redirect response if the user is logged in, or the rendered login page response.
+    """
+
     if current_user.is_authenticated:
         flash(message=f"You're already logged in!", category="info")
         return redirect(url_for("views.home_page"))
@@ -23,7 +37,7 @@ def login_page():
     login_form = LoginForm()
 
     if login_form.validate_on_submit():
-        attempted_user = User.query.filter_by(username=login_form.username.data).first()
+        attempted_user = User.query.filter_by(email=login_form.email.data).first()
         if attempted_user and attempted_user.check_password_correction(
             attempted_password=login_form.password.data
         ):
@@ -32,7 +46,7 @@ def login_page():
             return redirect(url_for("views.home_page"))
 
         flash(
-            message=f"Username and password don't match! Please try again.",
+            message=f"Email and password don't match! Please try again.",
             category="danger",
         )
     return render_template("login-page.html", form=login_form)
@@ -40,6 +54,20 @@ def login_page():
 
 @auth.route("register", methods=["POST", "GET"])
 def register_page():
+    """
+    Register a new user.
+
+    This route handles the registration process for a new user. It allows users to create an account by providing
+    their desired username, email, and password. If the registration is successful, the user is redirected to the
+    home page and a success message is displayed. If there are any validation errors with the registration form,
+    corresponding error messages are flashed.
+
+    Returns:
+        If the registration is successful, redirects to the home page.
+        If there are validation errors, renders the registration page with the corresponding error messages.
+
+    """
+
     register_form = RegisterForm()
 
     if current_user.is_authenticated:
@@ -67,11 +95,7 @@ def register_page():
         return redirect(url_for("views.home_page"))
 
     if register_form.errors != {}:
-        for error_msg in register_form.errors.values():
-            flash(
-                message=f"{error_msg[0]}",
-                category="danger",
-            )
+        flash_errors(register_form)
 
     return render_template("register-page.html", form=register_form)
 
@@ -79,6 +103,18 @@ def register_page():
 @auth.route("/logout")
 @login_required
 def logout_page():
+    """
+    Log out the current user.
+
+    This route logs out the current authenticated user. It calls the `logout_user` function provided by the Flask-Login
+    extension to remove the user's session and clear the authentication state. After logging out, a flash message is
+    displayed to inform the user, and they are redirected to the login page.
+
+    Returns:
+        A redirect response to the login page.
+
+    """
+
     logout_user()
     flash(message=f"You have been logged out!", category="info")
     return redirect(url_for("auth.login_page"))
@@ -87,6 +123,29 @@ def logout_page():
 @auth.route("/settings", methods=["POST", "GET"])
 @login_required
 def settings_page():
+    """
+    Manage user settings.
+
+    This route allows the user to manage their account settings. It provides forms for changing the username,
+    changing the password, and deleting the account.
+
+    If the change username form is submitted and valid, the user's username is updated to the new value and a success
+    flash message is displayed. If the new username is the same as the current username, an info flash message is
+    displayed.
+
+    If the change password form is submitted and valid, the user's password is updated to the new value and a success
+    flash message is displayed. If an error occurs during password update, a danger flash message is displayed.
+
+    If the delete account form is submitted and valid, the user's account is deleted, they are logged out, and a success
+    flash message is displayed.
+
+    If there are validation errors in any of the forms, corresponding danger flash messages are displayed.
+
+    Returns:
+        A rendered template for the settings page.
+
+    """
+
     change_username_form = ChangeUsernameForm()
     change_password_form = ChangePasswordForm()
     delete_account_form = DeleteAccountForm()
@@ -162,16 +221,13 @@ def settings_page():
         return redirect(url_for("auth.login_page"))
 
     if change_username_form.errors != {} and change_username_form.submit_username.data:
-        for error_msg in change_username_form.errors.values():
-            flash(message=f"{error_msg[0]}", category="danger")
+        flash_errors(change_username_form)
 
     if change_password_form.errors != {} and change_password_form.submit_password.data:
-        for error_msg in change_password_form.errors.values():
-            flash(message=f"{error_msg[0]}", category="danger")
+        flash_errors(change_password_form)
 
     if delete_account_form.errors != {} and delete_account_form.submit.data:
-        for error_msg in delete_account_form.errors_values():
-            flash(message=f"{error_msg[0]}", category="danger")
+        flash_errors(delete_account_form)
 
     return render_template(
         "settings-page.html",

@@ -2,9 +2,12 @@ import requests
 from datetime import datetime, timedelta
 from website.error_enums import ErrorEnum
 from website.env_loader import WEATHER_API_KEY
+from typing import List, Union, Dict
 
 
-def get_hourly_weather_data_single_day(location: str, selected_date: str):
+def get_hourly_weather_data_single_day(
+    location: str, selected_date: str
+) -> Union[List[Dict[str, str]], ErrorEnum]:
     """
     Retrieves the hourly weather forecast for a specific location and date.
 
@@ -13,16 +16,19 @@ def get_hourly_weather_data_single_day(location: str, selected_date: str):
         selected_date (str): The date for which to retrieve the weather forecast in the format "YYYY-MM-DD".
 
     Returns:
-        list or ErrorEnum: The hourly weather forecast data for the specified date, or an error enum if an error occurs.
+        Union[List[Dict[str, str]], ErrorEnum]:
+            - If successful, returns a list of dictionaries representing the hourly weather forecast.
+              Each dictionary contains weather data for a specific hour, with keys such as "time", "temperature", etc.
+            - If an error occurs during the API request or processing, returns an ErrorEnum.
 
-    The function fetches the weather forecast data from an external API for the specified location and date.
-    It checks if the selected date is within the allowed range (up to two days in the past).
-    If the selected date is beyond the allowed range, it returns an error enum indicating the date is too far in the past.
-    If the selected date is in the future (beyond the available forecast), it returns an error enum for that scenario as well.
-    The function processes the hourly forecast based on the selected date and the current hour, excluding past hours if applicable.
-    Finally, it returns the hourly forecast data or an error enum, depending on the result.
+    This function fetches the hourly weather forecast data from an external API for the specified location and date.
+    It constructs the API URL using the provided location and selected date.
+    The URL is then used to send a request to the API and retrieve the response.
 
-
+    If the API request is successful and the response contains valid weather forecast data,
+    the function extracts the hourly forecast from the response and returns it as a list of dictionaries.
+    Each dictionary represents the weather data for a specific hour, with keys corresponding to different weather attributes.
+    If not a ErrorEnum is returned to indicate the specific error.
     """
 
     url = f"http://api.weatherapi.com/v1/forecast.json?key={WEATHER_API_KEY}&q={location}&dt={selected_date}&hour=0-23&days=1"

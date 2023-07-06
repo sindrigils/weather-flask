@@ -1,12 +1,11 @@
 from flask_login import UserMixin
-from website import db, bcrypt
+from website import db, bcrypt, app
 from datetime import datetime
 from sqlalchemy import JSON
 from sqlalchemy.ext.mutable import MutableDict
 from collections import OrderedDict
 from werkzeug.utils import secure_filename
 from os import path, remove
-from website import app
 
 
 def default_timestamp():
@@ -42,6 +41,7 @@ class User(UserMixin, db.Model):
         "SearchHistory", backref="user", cascade="all, delete", lazy=True
     )
     profile_pic = db.Column(db.String(), nullable=False, default="default.png")
+    reset_token = db.Column(db.String(100))
 
     @property
     def password(self):

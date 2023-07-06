@@ -13,8 +13,8 @@ UPLOAD_FOLDER = "static/images/profile-pics"
 app.config["UPLOAD_PROFILE_FOLDER"] = path.join(app.root_path, UPLOAD_FOLDER)
 
 
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
+db: SQLAlchemy = SQLAlchemy(app)
+bcrypt: Bcrypt = Bcrypt(app)
 
 login_manager = LoginManager(app)
 login_manager.login_view = "auth.login_page"

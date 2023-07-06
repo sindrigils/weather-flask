@@ -85,10 +85,14 @@ Settings
                     {{ password_form.new_password(class="change-box", placeholder="Password") }}
                 </div>
     
-                <div class="change-info-box-container">
+                <div class="change-info-box-container" style="position: relative;">
                     <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
                     {{ password_form.repeat_new_password.label(class="change-label") }}
                     {{ password_form.repeat_new_password(class="change-box", placeholder="Repeat Password") }}
+
+                    <div class="forgot-psw">
+                        <a href="">Forgot password?</a>
+                    </div>
                 </div>
     
                 <div class="change-info-box-container">

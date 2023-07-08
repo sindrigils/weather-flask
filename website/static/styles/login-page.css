@@ -28,7 +28,7 @@ body {
     height: 28.8rem;
 }
 
-    .form-box {
+.form-box {
     width: 100%;
     padding: 40px;
 }
@@ -216,8 +216,66 @@ body {
     font-weight: 500;
 }
 
+.forgot-psw-link {
+    background: none;
+    border: none;
+    margin-bottom: 8px;
+}
 
- 
+.forgot-psw-modal {
+    position: relative;
+    background: #E1F1FF;
+    width: 35vw;
+    height: 35vh;
+    min-width: 25rem;
+    min-height: 20rem;
+    display: none;
+    z-index: 101;
+    margin: auto;
+    bottom: 25rem;
+    border-radius: 10px;
+}
+
+.forgot-psw-modal form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.email-label {
+    font-size: 1.1rem;
+    width: 20vw;
+    min-width: 15rem;
+}
+
+.email-field {
+    width: 80%;
+    height: 3rem;
+    border: 1px solid lightblue;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 2px dashed #c2c2c2;
+}
+
+.email-field:focus {
+    outline: none;
+}
+
+.email-submit {
+    width: 80%;
+    height: 3rem;
+    border: none;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: #222;
+}
+
+
 
 @media (min-width: 40rem) {
     body {
@@ -225,7 +283,6 @@ body {
         background-size: cover;
         background-position: top;
         grid-template-rows: 10vh 1fr;
-        grid-template-areas: "header" "login-form";
     }
 
     .main-header {

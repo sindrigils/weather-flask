@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, Blueprint, flash
+from flask import render_template, redirect, url_for, Blueprint, flash, request
 from flask_login import login_required, login_user, logout_user, current_user
 from website import db
 from website.forms import (
@@ -7,9 +7,11 @@ from website.forms import (
     ChangePasswordForm,
     ChangeUsernameForm,
     DeleteAccountForm,
+    ResetPasswordForm,
 )
 from website.models import User
-from website.utils.support import flash_errors
+from website.utils.support import flash_errors, generate_token
+from website.utils.emails_utils import send_password_reset_mail
 
 
 auth = Blueprint("auth", __name__)
@@ -149,6 +151,7 @@ def settings_page():
     change_username_form = ChangeUsernameForm()
     change_password_form = ChangePasswordForm()
     delete_account_form = DeleteAccountForm()
+    print(current_user.reset_token)
 
     if (
         change_username_form.validate_on_submit()
@@ -202,7 +205,7 @@ def settings_page():
 
         if not current_user.check_password_correction(form_password):
             flash(
-                message=f"The password you enterd doesn't match your account password!",
+                message=f"The password you entered doesn't match your account password!",
                 category="danger",
             )
             return redirect(url_for("auth.settings_page"))
@@ -234,4 +237,95 @@ def settings_page():
         password_form=change_password_form,
         username_form=change_username_form,
         delete_form=delete_account_form,
+    )
+
+
+@auth.route("/forgot-password", methods=["POST", "GET"])
+@auth.route("/forgot-password/<email>", methods=["POST", "GET"])
+def forgot_password_page(email: str = None):
+    """
+    Handle the forgot password functionality.
+
+    This route is responsible for generating a password reset token for the user with the provided email address.
+    It sends a password reset email to the user containing a unique reset link. If the user is found in the database,
+    the reset token is assigned to the user's `reset_token` attribute and saved in the database. Then, the password
+    reset email is sent to the user's email address.
+
+    Parameters:
+        email (str, optional): The email address of the user requesting a password reset.
+            If not provided, the email will be retrieved from the form data.
+
+    Returns:
+        Redirect: Redirects the user to the settings page or login page.
+    """
+
+    if not email:
+        email = request.form.get("email")
+
+    user = User.query.filter_by(email=email).first()
+
+    if user:
+        token = generate_token()
+        user.reset_token = token
+        db.session.add(user)
+        db.session.commit()
+
+        reset_link = request.host_url + f"reset-password/{token}"
+        send_password_reset_mail(email, reset_link)
+        flash(
+            message=f"Check your email for instructions to reset your password.",
+            category="info",
+        )
+
+    if current_user.is_authenticated:
+        return redirect(url_for("auth.settings_page"))
+    return redirect(url_for("auth.login_page"))
+
+
+@auth.route("reset-password/<token>", methods=["POST", "GET"])
+def reset_password_page(token: str):
+    """
+    Handle the reset password functionality.
+
+    This route is responsible for resetting the user's password based on the provided reset token.
+    It validates the submitted form data and updates the user's password if the token is valid.
+    If the password reset is successful, a success flash message is displayed, and the user is redirected to the home page.
+    If the token is invalid or the form data is not valid, an appropriate flash message is displayed, and the user is redirected to the settings page.
+
+    Parameters:
+        token (str): The reset token used to identify the user.
+
+    Returns:
+        Redirect or rendered template: Depending on the outcome, it redirects the user to the home page or renders the reset password page.
+
+    """
+
+    resest_psw_form = ResetPasswordForm()
+
+    if resest_psw_form.validate_on_submit():
+        new_password = resest_psw_form.new_password.data
+        user = User.query.filter_by(reset_token=token).first()
+
+        if user:
+            user.reset_password(new_password)
+            flash(message=f"Your password has been reseted!", category="success")
+            if current_user.is_authenticated:
+                return redirect(url_for("views.home_page"))
+            return redirect(url_for("auth.login_page"))
+
+        else:
+            flash(
+                message=f"Could not reset password, invalid link. Please try this again!",
+                category="danger",
+            )
+
+            if current_user.is_authenticated:
+                return redirect(url_for("auth.settings_page"))
+            return redirect(url_for("auth.login_page"))
+
+    if resest_psw_form.errors != {}:
+        flash_errors(resest_psw_form)
+
+    return render_template(
+        "reset-password-page.html", form=resest_psw_form, token=token
     )

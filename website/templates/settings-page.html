@@ -91,7 +91,7 @@ Settings
                     {{ password_form.repeat_new_password(class="change-box", placeholder="Repeat Password") }}
 
                     <div class="forgot-psw">
-                        <a href="">Forgot password?</a>
+                        <a href="{{ url_for('auth.forgot_password_page', email=current_user.email) }}">Forgot password?</a>
                     </div>
                 </div>
     

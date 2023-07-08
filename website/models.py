@@ -69,6 +69,11 @@ class User(UserMixin, db.Model):
         else:
             raise ValueError()
 
+    def reset_password(self, new_password: str):
+        self.password = new_password
+        db.session.add(self)
+        db.session.commit()
+
     def update_history(self, city: str):
         """Updates the user search history.
 

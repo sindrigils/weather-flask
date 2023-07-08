@@ -96,6 +96,10 @@ body {
     font-size: 1rem;
 }
 
+.main-nav-login-button:focus, .main-nav-login-button:focus-visible {
+    outline: none;
+}
+
 .main-nav-login-button:hover {
     background: white;
     color: #78c7d2;

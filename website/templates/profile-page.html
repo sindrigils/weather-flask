@@ -73,8 +73,10 @@ Profile
 
 
     <div class="buttons-container">
-        <button class="history-btn"><span>Search History</span></button>
-        <button class="location-btn"><span>Top locations</span></button>
+        <div>
+            <button class="history-btn"><span>Search History</span></button>
+            <button class="location-btn"><span>Top locations</span></button>    
+        </div>
         <a href="{{ url_for('auth.settings_page') }}"><button class="settings-btn"><span>Settings</span></button></a>
     </div>
 

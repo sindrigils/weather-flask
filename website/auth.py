@@ -151,7 +151,6 @@ def settings_page():
     change_username_form = ChangeUsernameForm()
     change_password_form = ChangePasswordForm()
     delete_account_form = DeleteAccountForm()
-    print(current_user.reset_token)
 
     if (
         change_username_form.validate_on_submit()

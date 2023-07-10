@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 from os import path, remove
 
 
-def default_timestamp():
+def default_timestamp() -> datetime:
     return datetime.utcnow()
 
 

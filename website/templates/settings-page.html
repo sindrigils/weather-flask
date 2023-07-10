@@ -27,9 +27,22 @@ Settings
         </div>
 
         <div class="account-content-info">
-            <img src="{{ url_for('static', filename='images/profile-pics/' + current_user.profile_pic) }}" alt="profile-pic" class="profile-pic">
-            <p class="account-content-info-username"><span>Username</span> - {{ current_user.username }}</p>
-            <p class="account-content-info-email"><span>Email Address</span> - {{ current_user.email }}</p>
+            <div class="profile-pic-container">
+                <img src="{{ url_for('static', filename='images/profile-pics/' + current_user.profile_pic) }}" alt="profile-pic" class="profile-pic">
+            </div>
+
+            <div class="account-info">
+                <p class="account-content-info-username"><span>Username</span> - {{ current_user.username }}</p>
+                <p class="account-content-info-email"><span>Email Address</span> - {{ current_user.email }}</p>
+            </div>
+
+            <div class="account-info-mobile">
+                <p>Username</p>
+                <p>{{ current_user.username }}</p>
+                <br>
+                <p>Email Address</p>
+                <p>{{ current_user.email }}</p>
+            </div>
         </div>
     </div>
 

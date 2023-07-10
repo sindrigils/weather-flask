@@ -51,14 +51,43 @@ class User(UserMixin, db.Model):
 
     @password.setter
     def password(self, text_password: str):
+        """
+        Setter for the password attribute.
+        This method generates a password hash from the provided `text_password` and sets it as the `password_hash` attribute.
+
+        Args:
+            text_password (str): The plaintext password to set.
+        """
+
         self.password_hash = bcrypt.generate_password_hash(
             password=text_password
         ).decode("utf-8")
 
     def check_password_correction(self, attempted_password: str) -> bool:
+        """
+        Checks if the attempted password matches the user's password.
+
+        This function verifies whether the attempted password matches the user's stored password. It uses bcrypt to compare the hashed password stored in the `password_hash` attribute with the attempted password.
+
+        Args:
+            attempted_password (str): The password to check against the user's stored password.
+
+        Returns:
+            bool: True if the attempted password matches the user's password, False otherwise.
+        """
+
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
     def update_username(self, new_username: str):
+        """
+        Updates the user's username.
+
+        This function updates the user's username with a new one. It sets the new username provided as the argument and updates the corresponding database entry.
+
+        Args:
+            new_username (str): The new username to set for the user.
+        """
+
         self.username = new_username
         db.session.add(self)
         db.session.commit()
@@ -72,6 +101,15 @@ class User(UserMixin, db.Model):
             raise ValueError()
 
     def reset_password(self, new_password: str):
+        """Resets the user's password.
+
+        This function updates the user's password with a new one. It sets the new password provided
+        as the argument and updates the corresponding database entry.
+
+        Args:
+            new_password (str): The new password to set for the user.
+        """
+
         self.password = new_password
         db.session.add(self)
         db.session.commit()
@@ -82,8 +120,6 @@ class User(UserMixin, db.Model):
         Args:
             city (str): The city to add to the search history.
             date (str): The desirable date the users wanted to see the weather on.
-        Returns:
-            None
         """
 
         if city in self.view_count:
@@ -97,6 +133,16 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
     def get_top_viewed_cities(self):
+        """
+        Returns a dictionary of the user's top viewed cities.
+
+        This function retrieves the user's view count dictionary, which tracks the number of times each city has been viewed by the user.
+        It sorts the dictionary in descending order based on the view count and returns the sorted dictionary.
+
+        Returns:
+            OrderedDict: A dictionary containing the user's top viewed cities, sorted by view count in descending order.
+        """
+
         sorted_dict = OrderedDict(
             sorted(self.view_count.items(), key=lambda x: x[1], reverse=True)
         )
@@ -104,6 +150,17 @@ class User(UserMixin, db.Model):
         return sorted_dict
 
     def update_profile_pic(self, file):
+        """
+        Updates the user's profile picture.
+
+        This function replaces the user's current profile picture with a new one. If the user already has a profile picture other than the default one,
+        the function removes the previous picture from the upload folder. The new picture is saved in the upload folder
+        with a secure filename and its path is updated in the user's profile. The database entry is also updated accordingly.
+
+        Args:
+            file (FileStorage): The file object representing the new profile picture.
+        """
+
         prev_profile_pic = self.profile_pic
 
         if prev_profile_pic != DEFAULT_PROFILE_PIC:
@@ -122,6 +179,13 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
     def validate_profile_pic(self):
+        """
+        Validates the user's profile picture.
+        This function checks if the user's profile picture exists in the specified upload folder.
+        If the picture does not exist, it sets the profile picture to the default value and updates
+        the corresponding database entry.
+        """
+
         file_path = path.join(app.config["UPLOAD_PROFILE_FOLDER"], self.profile_pic)
         if not path.exists(file_path):
             self.profile_pic = DEFAULT_PROFILE_PIC

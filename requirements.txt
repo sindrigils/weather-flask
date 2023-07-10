@@ -1,0 +1,11 @@
+Flask
+Flask-WTF
+Flask-Mail
+Flask-Bcrypt
+Flask-Login
+WTForms
+WTForms-Validators
+requests
+python-dotenv
+SQLAlchemy
+

@@ -1,0 +1,54 @@
+body {
+    background: #E1F1FF;
+}
+
+main {
+    grid-area: main;
+}
+
+.contact-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+}
+
+.contact-form-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+}
+
+.contact-form-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.text-area {
+    padding: 1rem;
+    border-radius: 20px;
+}
+
+.text-area:focus-visible {
+    outline: none;
+}
+
+.submit-btn {
+    font-size: 1.1rem;
+    width: 12rem;
+    height: 3.5rem;
+    border-radius: 100px;
+    border: none;
+    border: 5px solid #78c7d2;
+    color: black;
+    background: #E1F1FF;
+    transition: all 0.25s ease-in-out;
+}
+
+.submit-btn:hover {
+    background: #78c7d2;
+    color: white;
+}

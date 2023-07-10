@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, EmailField
+from wtforms import StringField, PasswordField, SubmitField, EmailField, TextAreaField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from website.models import User
 from string import punctuation
@@ -181,3 +181,8 @@ class ResetPasswordForm(FlaskForm):
         validators=[DataRequired(), EqualTo("new_password", "Passwords don't match!")],
     )
     submit = SubmitField(label="Reset Password")
+
+
+class ContactForm(FlaskForm):
+    text_area = TextAreaField(validators=[DataRequired()])
+    submit = SubmitField(label="Submit")

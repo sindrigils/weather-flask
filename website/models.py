@@ -7,6 +7,8 @@ from collections import OrderedDict
 from werkzeug.utils import secure_filename
 from os import path, remove
 
+DEFAULT_PROFILE_PIC = "default.png"
+
 
 def default_timestamp() -> datetime:
     return datetime.utcnow()
@@ -40,7 +42,7 @@ class User(UserMixin, db.Model):
     search_history = db.relationship(
         "SearchHistory", backref="user", cascade="all, delete", lazy=True
     )
-    profile_pic = db.Column(db.String(), nullable=False, default="default.png")
+    profile_pic = db.Column(db.String(), nullable=False, default=DEFAULT_PROFILE_PIC)
     reset_token = db.Column(db.String(100))
 
     @property
@@ -104,7 +106,7 @@ class User(UserMixin, db.Model):
     def update_profile_pic(self, file):
         prev_profile_pic = self.profile_pic
 
-        if prev_profile_pic != "default.png":
+        if prev_profile_pic != DEFAULT_PROFILE_PIC:
             prev_profile_pic_path = path.join(
                 app.config["UPLOAD_PROFILE_FOLDER"], prev_profile_pic
             )
@@ -118,3 +120,10 @@ class User(UserMixin, db.Model):
         self.profile_pic = filename
         db.session.add(self)
         db.session.commit()
+
+    def validate_profile_pic(self):
+        file_path = path.join(app.config["UPLOAD_PROFILE_FOLDER"], self.profile_pic)
+        if not path.exists(file_path):
+            self.profile_pic = DEFAULT_PROFILE_PIC
+            db.session.add(self)
+            db.session.commit()

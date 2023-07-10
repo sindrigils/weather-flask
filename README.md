@@ -32,10 +32,15 @@ This is a Flask web application that provides weather information for different 
 6. Create a .env file in the root directory of the project and provide the following variables:
    <br />
    `weather_api=YOUR_WEATHER_API_KEY`
+   <br />
    `google_maps_api=YOUR_GOOGLE_MAPS_API_KEY`
+   <br />
    `secret_key=YOUR_SECRET_KEY`
+   <br />
    `mail_username=YOUR_EMAIL_USERNAME`
+   <br />
    `mail_password=YOUR_EMAIL_PASSWORD`
+   
 
 # Usage
 

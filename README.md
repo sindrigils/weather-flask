@@ -5,12 +5,13 @@ This is a Flask web application that provides weather information for different 
 # Installation
 
 1. Clone this repository:
+   <br />
    `git clone https://github.com/sindrigils/weather-flask.git`
 
-2. Navigate to the project directory:
+3. Navigate to the project directory:
    `cd weather-flask`
 
-3. Create and activate a virtual environment:
+4. Create and activate a virtual environment:
    For Linux/Max:
    `python3 -m venv venv`
    `source venv/bin/activate`

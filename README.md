@@ -46,10 +46,15 @@ This is a Flask web application that provides weather information for different 
    `weather_api`: Your Weather API key. Obtain this key by signing up here www.weatherapi.com, the free trial is enough.
    <br />
    `google_maps_api`: Your Google Maps API key. Obtain this key by creating a project in the Google Cloud Console and enabling the necessary APIs. Follow these steps to obtain the API key:
+   <br />
        1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
+   <br />
        2. Create a new project or select an existing project.
+   <br />
        3. Enable the "Maps JavaScript API", "Maps Static API" and "Geocode" for your project.
+   <br />
        4. Generate an API key for your project.
+   <br />
        5. Copy the API key and use it as the value for the `google_maps_api` variable in the `.env` file.
    <br />
    `secret_key`: A secret key used for Flask's session management and other security-related features. Generate a secure random key to use as the value for this variable.

@@ -16,7 +16,7 @@ Contact
         <form action="{{ url_for('views.contact_page') }}" method="post">
             {{ form.hidden_tag() }}
             
-            {{ form.text_area(rows=18, cols=80, class="text-area", placeholder="Type here") }}
+            {{ form.text_area(rows=15, cols=80, class="text-area", placeholder="Type here") }}
 
             {{ form.submit(class="submit-btn") }}            
         </form>

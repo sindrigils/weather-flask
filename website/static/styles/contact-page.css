@@ -30,6 +30,8 @@ main {
 .text-area {
     padding: 1rem;
     border-radius: 20px;
+    width: 80%;
+    height: 80%;
 }
 
 .text-area:focus-visible {
@@ -51,4 +53,11 @@ main {
 .submit-btn:hover {
     background: #78c7d2;
     color: white;
+}
+
+@media screen and (min-width: 40rem) {
+    .text-area {
+        width: 90%;
+        height: 100%;
+    }
 }

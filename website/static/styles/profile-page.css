@@ -140,6 +140,10 @@ main {
     gap: 2rem;
 }
 
+.btn-div button:focus {
+    outline: none;
+}
+
 .history-btn,
 .location-btn {
     border: none;
@@ -194,6 +198,10 @@ main {
     border: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: box-shadow, transform 0.3s ease-in-out;
+    outline: none;
+}
+
+.settings-btn:focus {
     outline: none;
 }
 

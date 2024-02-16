@@ -1,6 +1,7 @@
 # Weather Flask
 
-This is a Flask web application that provides weather information for different cities. It utilizes weather data from a weather API and integrates with Google Maps for location-based services.
+
+This is a Flask web application that provides weather information for different cities. Created during my first year in college, this project serves as a practical learning experience for understanding the fundamentals of Flask. It utilizes weather data from a weather API and integrates with Google Maps for location-based services
 
 # Installation
 
@@ -13,7 +14,7 @@ This is a Flask web application that provides weather information for different 
    `cd weather-flask`
 
 3. Create and activate a virtual environment:
-   For Linux/Max:
+   For Linux/Mac:
    <br />
    `python3 -m venv venv`
    <br />
